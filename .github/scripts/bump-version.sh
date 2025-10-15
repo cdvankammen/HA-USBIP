@@ -17,7 +17,7 @@ new="${major}.${minor}.${patch}"
 perl -0777 -pe "s/version:[ \t]*\"[0-9]+\\.[0-9]+\\.[0-9]+\"/version: \"${new}\"/s" -i "$CFG"
 
 date=$(date -u +"%Y-%m-%d")
-entry="## ${new} - ${date}\n\n- Auto bumped version on push to master\n\n"
+entry="## ${new} - ${date}\n\n- Auto bumped version on push to repository\n\n"
 if [ -f "$CHANGELOG" ]; then
   ( printf '%s\n' "$entry"; cat "$CHANGELOG" ) > "$CHANGELOG.tmp" && mv "$CHANGELOG.tmp" "$CHANGELOG"
 else

@@ -1,0 +1,11 @@
+name: HA-USBIP Add-on Repository
+maintainer: Your Name
+url: https://github.com/yourname/HA-USBIP
+homepage: https://github.com/yourname/HA-USBIP
+ssl: true
+addons:
+  ha_usbip:
+    repository: https://github.com/yourname/HA-USBIP
+    name: HA-USBIP
+    description: Minimal USB/IP client add-on
+    version: 0.1.0

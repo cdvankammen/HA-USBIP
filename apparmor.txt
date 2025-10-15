@@ -1,0 +1,39 @@
+# AppArmor rules for HA-USBIP add-on
+# Place this file at the repo root as apparmor.txt
+
+# Allow network access (TCP/UDP)
+network,
+
+# Allow access to the host's device nodes and usbip vhci device
+mount fstype=bind /dev/** rwm,
+mount fstype=bind /sys/class/usb/** rwm,
+mount fstype=bind /sys/bus/usb/** rwm,
+mount fstype=bind /dev/vhci* rwm,
+
+# Allow reading kernel udev/sysfs info
+mount fstype=bind /run/udev/data/** r,
+
+# Allow reading and writing /etc configuration files
+mount fstype=bind /etc/usbip-client.conf rwm,
+mount fstype=bind /etc/** r,
+
+# Allow access to logs and persistent data
+mount fstype=bind /var/log/** rwm,
+mount fstype=bind /data/** rwm,
+
+# Allow execution of helper binaries included in the add-on image
+mount fstype=bind /usr/local/bin/** px,
+mount fstype=bind /usr/bin/** px,
+mount fstype=bind /bin/** px,
+mount fstype=bind /sbin/** px,
+
+# Allow limited ptrace for debugging if needed
+ptrace (read by peer),
+
+# Allow necessary capabilities for usbip operations
+capability sys_admin,
+capability net_raw,
+capability net_admin,
+capability sys_resource,
+
+# Deny everything else by default (profile enforcement provided by supervisor)

@@ -19,8 +19,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+      - name: Make scripts executable
+        run: |
+            chmod +x .github/scripts/bump-version.sh
+            chmod +x .github/scripts/git-set-exec.sh || true
+
       - name: Run bump script
-        run: ./.github/scripts/bump-version.sh
+        run: bash ./.github/scripts/bump-version.sh
+
 
       - name: Commit bumped files
         run: |

@@ -1,0 +1,3 @@
+#!/usr/bin/with-contenv bashio
+bashio::log.info "usbip service: running simple-usbip-client.sh"
+exec /usr/local/bin/simple-usbip-client.sh

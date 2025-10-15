@@ -1,0 +1,6 @@
+ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:latest
+FROM ${BUILD_FROM}
+
+RUN apt-get update && apt-get install -y usbip usbutils iproute2 jq && rm -rf /var/lib/apt/lists/*
+
+COPY rootfs/ /

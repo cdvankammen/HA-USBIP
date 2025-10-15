@@ -1,0 +1,36 @@
+name: Bump version and set exec bits on push to master
+on:
+  push:
+    branches:
+      - master
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Ensure scripts are executable and commit
+        run: ./.github/scripts/git-set-exec.sh
+
+      - name: Run bump script
+        run: ./.github/scripts/bump-version.sh
+
+      - name: Commit bump changes if any
+        run: |
+          git add config.yaml CHANGELOG.md || true
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: bump version [skip ci]" || echo "nothing to commit"
+            git push origin HEAD:master
+          else
+            echo "No version change detected"
+          fi

@@ -1,0 +1,33 @@
+name: Bump version on push to main
+on:
+  push:
+    branches:
+      - main
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run bump script
+        run: ./.github/scripts/bump-version.sh
+
+      - name: Commit bumped files
+        run: |
+          git add config.yaml CHANGELOG.md || true
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: bump version [skip ci]"
+            git push origin HEAD:main
+          else
+            echo "No version change detected"
+          fi
